@@ -1,0 +1,182 @@
+{
+    "azureFunctions.deploySubpath": "src\\VegaDW.Functions",
+    "azureFunctions.projectLanguage": "PowerShell",
+    "azureFunctions.projectRuntime": "~3",
+    "cSpell.language": "en-GB",
+    "cSpell.words": [
+        "Analyzer",
+        "Authorise",
+        "behaviour",
+        "bgerhardi",
+        "BICESTER",
+        "CDIM",
+        "celestra",
+        "Celpac",
+        "childitem",
+        "cicd",
+        "cleanup",
+        "cmdlet",
+        "comntools",
+        "coniq",
+        "ctes",
+        "dacpac",
+        "Datasource",
+        "david",
+        "dbo",
+        "dedupe",
+        "deduper",
+        "dtsx",
+        "dwfiles",
+        "ETLs",
+        "familiarise",
+        "fcibs",
+        "finalise",
+        "ftpstream",
+        "gerhardi",
+        "getdate",
+        "Hashtable",
+        "HASONEVALUE",
+        "hitachiconsulting",
+        "initialise",
+        "isnull",
+        "Lastpass",
+        "link",
+        "mailto",
+        "markdownlint",
+        "memorise",
+        "minimised",
+        "msbuild",
+        "nocount",
+        "nvarchar",
+        "nvarchars",
+        "olap",
+        "oledb",
+        "oltp",
+        "parameterised",
+        "Passthru",
+        "popd",
+        "pushd",
+        "RELX",
+        "remerchandising",
+        "repo",
+        "Rowcount",
+        "rowset",
+        "seanmcbreen",
+        "shapekey",
+        "Skidoo",
+        "Slippy",
+        "snape",
+        "soql",
+        "Sqlcmd",
+        "SSAS",
+        "SSDT",
+        "ssis",
+        "SSMS",
+        "Standup",
+        "SUMMARIZECOLUMNS",
+        "targetmap",
+        "testcustom",
+        "testlink",
+        "teststar",
+        "timetracker",
+        "udfs",
+        "upsert",
+        "valueretail",
+        "varchar",
+        "vcvars",
+        "vcvarsall",
+        "vs"
+    ],
+    "customXmlFormatter.enableAddLeftSpace": true,
+    "customXmlFormatter.enableAddRightSpace": true,
+    "customXmlFormatter.splitAttributesLimit": 0,
+    "dataworkspace.excludedProjects": [
+        "src/VegaDW.Database.Ssis/VegaDW.Database.Ssis.sqlproj",
+        "src/VegaDW.Database.TempDB/VegaDW.Database.TempDB.sqlproj"
+    ],
+    "debug.internalConsoleOptions": "neverOpen",
+    "editor.bracketPairColorization.enabled": true,
+    "editor.detectIndentation": false,
+    "editor.tabSize": 4,
+    "editor.useTabStops": false,
+    "editor.wordWrap": "on",
+    "files.associations": {
+        "*.json": "jsonc"
+    },
+    "files.autoSave": "afterDelay",
+    "files.eol": "\r\n",
+    "files.exclude": {
+        "**/output": true,
+        "**/package": true
+    },
+    "FSharp.disableFailedProjectNotifications": true,
+    "FSharp.fsacRuntime": "netcore",
+    "json.schemas": [
+        {
+            "fileMatch": [
+                "/src/VegaDW.Database/Model/Source/**/*.json",
+                "/src/VegaDW.Database/Model/Test/Stash/**/*.json"
+            ],
+            "url": "./application/Celestra/schemas/stashTable.json"
+        },
+        {
+            "fileMatch": [
+                "/src/VegaDW.Database/Model/CubeEntity/**/*.json",
+                "/src/VegaDW.Database/Model/Test/Star*/**/*.json"
+            ],
+            "url": "./application/Celestra/schemas/shapeTable.json"
+        },
+        {
+            "fileMatch": [
+                "/application/Celestra/schemas/test/demoBlendObjectJson*.json"
+            ],
+            "url": "./application/Celestra/schemas/test/demoBlendObjectSchema.json"
+        },
+        {
+            "fileMatch": [
+                "/test/**/*.json",
+                "/test/**/*.yaml"
+            ],
+            "url": "./test/framework/schema/testBatch.schema.json"
+        }
+    ],
+    "yaml.schemas": {
+        "./test/schema/testBatch.schema.json": "/test/**/*.yaml"
+    },
+    "markdown-toc.anchorMode": "github.com",
+    "markdown-toc.bulletCharacter": "-",
+    "markdown-toc.detectAndAutoSetSection": true,
+    "markdownlint.config": {
+        "MD025": {
+            "front_matter_title": ""
+        }
+    },
+    // "markdownlint.customRules": [
+    //     "{docsmsft.docs-markdown}/markdownlint-custom-rules/rules.js"
+    // ],
+    "align.by.regex.templates": {
+        "then": "(?i)\\bthen\\b",
+        "as": "(?i)\\bas\\b",
+        "datatype": "(?i)\\[?\\b(image|text|uniqueidentifier|date|time|datetime2|datetimeoffset|tinyint|smallint|int|smalldatetime|real|money|datetime|float|sql_variant|ntext|bit|decimal|numeric|smallmoney|bigint|hierarchyid|geometry|geography|varbinary|varchar|binary|char|timestamp|nvarchar|nchar|xml|sysname)\\b",
+        "null": "(?i)\\b(not )?null\\b",
+        "spaces": "\\s+(?<x>[^\\s])",
+    },
+    "mssql.format.alignColumnDefinitionsInColumns": true,
+    "mssql.format.datatypeCasing": "lowercase",
+    "mssql.format.placeCommasBeforeNextStatement": true,
+    "mssql.format.placeSelectStatementReferencesOnNewLine": true,
+    "powershell.codeFormatting.preset": "OTBS",
+    "powershell.promptToUpdatePowerShell": false,
+    "powershell.integratedConsole.suppressStartupBanner": true,
+    "files.trimTrailingWhitespace": true,
+    "rainbow_csv.csv_lint_detect_trailing_spaces": true,
+    "MarkdownPaste.namePrefix": "${fileBasenameNoExtension}-",
+    "MarkdownPaste.silence": true,
+    "markdown.extension.print.absoluteImgPath": false,
+    "powershell.integratedConsole.showOnStartup": false,
+    "files.trimFinalNewlines": true,
+    "files.insertFinalNewline": true,
+    "editor.formatOnType": true,
+    "git.showUnpublishedCommitsButton": "always",
+    "git.enableStatusBarSync": true
+}

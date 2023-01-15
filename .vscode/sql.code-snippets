@@ -1,0 +1,92 @@
+{
+    // Place your VegaDW workspace snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and
+    // description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope
+    // is left empty or omitted, the snippet gets applied to all languages. The prefix is what is
+    // used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+    // $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders.
+    // Placeholders with the same ids are connected.
+    // Example:
+    // "Print to console": {
+    //     "scope": "javascript,typescript",
+    //     "prefix": "log",
+    //     "body": [
+    //         "console.log('$1');",
+    //         "$2"
+    //     ],
+    //     "description": "Log output to console"
+    // }
+    "GET_Audit": {
+        "prefix": ["SELECT audit", "GET Audit", "Audit"],
+        "description": "see what happened in the ETL recently",
+        "scope": "sql",
+        "body": [
+            "exec [audit].[GET_Audit]",
+            "    @Search                = '${1:}'     /* search for TableCode or SSIS Package (blank for all) */",
+            ",   @ChildOfAuditKey       = ${2:null}   /* show only children of AuditKey x */",
+            ",   @DaysAgo               = ${3|1,0.2|}      /* show audit rows up to x days ago */",
+            ",   @ShowProgressAfterMins = ${4|15,0|}     /* show progress in Info if > x mins */",
+            ",   @OnlyErrors            = ${5|0,1|}     /* only return audits that errored */",
+            ",   @OnlyWarnings          = ${6|0,1|}     /* only return audits that had warnings */",
+        ]
+    },
+    "SELECT_anchor": {
+        "prefix": "SELECT anchor",
+        "description": "check the state of the anchors for a given search string",
+        "scope": "sql",
+        "body": [
+            "select * from core.SELECT_anchor('${1:}' /* search for (blank for all) */)"
+        ]
+    },
+    "SELECT_SsisEvents": {
+        "prefix": "SELECT SsisEvents",
+        "description": "check the events from recent ssis executions against this database. Can also specify to exclude event types and message sources",
+        "scope": "sql",
+        "body": [
+            "select * from lib.SELECT_SsisEvents",
+            "(   '${1:}'     /* search for (blank for all) */",
+            ",   ${2|1,0.2|} /* days ago */",
+            ",   '${3:OnPreValidate, OnPostValidate, OnCustomEvent, DiagnosticEx, PackageStart, PackageEnd}' /* csv of Event Names to exclude */",
+            ",   '${4:Verify Overlord Requirements are met}'                                                 /* csv of Message Sources to exclude */",
+            ")"
+        ]
+    },
+    "SELECT_SsisStatistics": {
+        "prefix": "SELECT SsisStatistics",
+        "description": "check the step timings from recent ssis executions against this database",
+        "scope": "sql",
+        "body": [
+            "select * from lib.SELECT_SsisStatistics",
+            "(   '${1:}'     /* search for (blank for all) */",
+            ",   ${2|1,0.2|} /* days ago */",
+            ",   ${3|3,4|}   /* min depth */",
+            ",   ${4|0,1|}   /* show deeper? */",
+            ")"
+        ]
+    },
+    "sp_whoisactive": {
+        "prefix": "whoisactive",
+        "description": "see what is going on in the server right now",
+        "scope": "sql",
+        "body": [
+            "exec sp_whoisactive",
+            "    @get_plans = ${1|1,2,0|} /* If @get_plans = 1, gets the plan based on the request's statement offset, If @get_plans = 2, gets the entire plan based on the request's plan_handle */",
+            ",   @get_full_inner_text = ${2|0,1|}",
+            ",   @get_outer_command = ${3|1,0|}",
+            ",   @delta_interval = ${4|5,0|} /* include delta cpu/iocolumns after waiting for the number of seconds. Use 0 to get immediate result with no delta columns */",
+            ",   @get_task_info = 1 /* gives % complete */",
+            ",   @get_additional_info = 1 /* adds xml with client settings and other information */",
+            ",   @find_block_leaders = 1 /* adds could of blocked sessions */",
+            ",   @get_transaction_info = 1 /* adds transaction start time */"
+        ]
+    },
+    "select grip,stash,clean": {
+        "prefix": ["grip","stash"],
+        "description": "take a look at all the stash related tables",
+        "scope": "sql",
+        "body": [
+            "select * from  grip.${1:}_${2|FS,UI,PS|}${3| where, |}${4:}",
+            "select * from stash.${1:}   ${3}${4:}",
+            "select * from clean.${1:}   ${3}${4:}"
+        ]
+    }
+}
