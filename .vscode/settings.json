@@ -87,10 +87,6 @@
     "customXmlFormatter.enableAddLeftSpace": true,
     "customXmlFormatter.enableAddRightSpace": true,
     "customXmlFormatter.splitAttributesLimit": 0,
-    "dataworkspace.excludedProjects": [
-        "src/VegaDW.Database.Ssis/VegaDW.Database.Ssis.sqlproj",
-        "src/VegaDW.Database.TempDB/VegaDW.Database.TempDB.sqlproj"
-    ],
     "debug.internalConsoleOptions": "neverOpen",
     "editor.bracketPairColorization.enabled": true,
     "editor.detectIndentation": false,
@@ -109,33 +105,7 @@
     "FSharp.disableFailedProjectNotifications": true,
     "FSharp.fsacRuntime": "netcore",
     "json.schemas": [
-        {
-            "fileMatch": [
-                "/src/VegaDW.Database/Model/Source/**/*.json",
-                "/src/VegaDW.Database/Model/Test/Stash/**/*.json"
-            ],
-            "url": "./application/Celestra/schemas/stashTable.json"
-        },
-        {
-            "fileMatch": [
-                "/src/VegaDW.Database/Model/CubeEntity/**/*.json",
-                "/src/VegaDW.Database/Model/Test/Star*/**/*.json"
-            ],
-            "url": "./application/Celestra/schemas/shapeTable.json"
-        },
-        {
-            "fileMatch": [
-                "/application/Celestra/schemas/test/demoBlendObjectJson*.json"
-            ],
-            "url": "./application/Celestra/schemas/test/demoBlendObjectSchema.json"
-        },
-        {
-            "fileMatch": [
-                "/test/**/*.json",
-                "/test/**/*.yaml"
-            ],
-            "url": "./test/framework/schema/testBatch.schema.json"
-        }
+        
     ],
     "yaml.schemas": {
         "./test/schema/testBatch.schema.json": "/test/**/*.yaml"

@@ -22,8 +22,8 @@ Parameter description
 
 .EXAMPLE
 $splat = @{
-    NugetPath            = ($VegaContext.nugetPath)
-    FeedName             = 'Vega'
+    NugetPath            = $nugetPath
+    FeedName             = 'Feed'
     ModulePath           = 'module\PSEasy.Module'
 }
 Publish-NugetPackage @splat -VersionIncrementType None

@@ -45,16 +45,9 @@ Param(
     $Import
 )
 try {
-    # . "$PSScriptRoot\..\Install-DependencyNuget.ps1"
-    # . "$PSScriptRoot\..\Install-DependencyPSModule.ps1"
-    # . "$PSScriptRoot\..\Install-DependencyPSPackageProvider.ps1"
-    # . "$PSScriptRoot\..\Install-DependencyWebDownload.ps1"
-    # . "$PSScriptRoot\Get-Dependency.ps1"
 
     Set-StrictMode -Version 2
     $ErrorActionPreference = "Stop"
-
-    #$Context = & "$PSScriptRoot\..\..\application\Get-VegaContext.ps1" -Environment 'None' 2> $null # we don't need the environment yet. Perhaps we can make context global in the future, but will need testing
 
     # get the dependencies asked for
     $dependencySplat = @{
@@ -115,12 +108,9 @@ try {
                 Install-DependencyPSModule @splat
             }
         } elseif ($typeGroup.Name -eq 'Nuget') {
-            # $context = & "$PSScriptRoot\..\..\application\Get-VegaContext.ps1" -Environment 'None'
             $splat = @{
                 # TODO put nuget in the path so we don't need to absolute it
                 NugetPath   = (Join-Path (Split-Path -Parent -Path $typeGroup.Group[0].Destination) 'Depend-WebDownload\NuGet\nuget.exe')
-                #Name = $Dependency.name
-                #Version = $Dependency.Version
                 Destination = $typeGroup.Group[0].destination
             }
 
@@ -131,7 +121,7 @@ try {
 <packages>$($typeGroup.Group | Foreach-Object { [string]::format("`n`t<package id=""{0}"" version=""{1}"" />",$_.Name,$_.version)})
 </packages>
 "@
-            $nuGetConfigFolderName = "VegaNuget$(([IO.Path]::GetFileNameWithoutExtension([IO.Path]::GetRandomFileName())))"
+            $nuGetConfigFolderName = "Install-Dependency-Nuget$(([IO.Path]::GetFileNameWithoutExtension([IO.Path]::GetRandomFileName())))"
             $nuGetConfigFolder = "$(Join-Path ($env:TMP) $nuGetConfigFolderName)"
             try {
                 $null = New-Item -ItemType Directory $nuGetConfigFolder -Force

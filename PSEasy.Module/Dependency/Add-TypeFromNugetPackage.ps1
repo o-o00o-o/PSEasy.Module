@@ -55,7 +55,7 @@ function Add-TypeFromNugetPackage {
             # Always check that the dll exists (to prevent non-deterministic errors if Install-Dependency and Add-TypeFromNugetPackage not in sync)
 
             if (-not (Test-Path $filePath)) {
-                throw "Library path '$filePath', does not exist. Has Install-XXX been run? Each vega module (e.g. application, build, deploy etc) has an Install-XXX script that must be run once on each machine after each dependency change/system refresh"
+                throw "Library path '$filePath', does not exist. Has it been installed?"
             } else {
                 # Only do it if we don't alreay have it loaded
                 $existingAssembly = [appdomain]::currentdomain.getassemblies() | where-object { $_.ManifestModule.Name -eq $dll }

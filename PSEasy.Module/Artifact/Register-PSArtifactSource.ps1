@@ -25,20 +25,20 @@ Password to access the feed
 
 .EXAMPLE
 $splat = @{
-    OrganisationName = 'vrmobility'
-    ProjectName = 'Vega'
-    FeedName = 'Vega'
+    OrganisationName = 'yourOrg'
+    ProjectName = 'yourProj'
+    FeedName = 'Feed'
     LegacyAddress = $true
     Username = 'Personal Access Token'
-    Password = ($VegaContext.adoPatArtifactRWM)
+    Password = $azureDevOpsPat
 }
 
 Register-PSArtifactSource @splat
 
 Get-PSRepository
 Get-PackageSource
-Find-Module '*' -Repository Vega
-Install-Module -Name PSEasy.Module -Repository Vega
+Find-Module '*' -Repository Feed
+Install-Module -Name PSEasy.Module -Repository Feed
 
 .NOTES
 General notes

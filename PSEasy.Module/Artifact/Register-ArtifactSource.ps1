@@ -4,13 +4,13 @@ Registers ArtifactSource on both Nuget and PS provider
 
 .EXAMPLE
 $splat = @{
-    NugetPath = ($VegaContext.nugetPath)
-    OrganisationName = 'vrmobility'
-    ProjectName = 'Vega'
-    FeedName = 'Vega'
+    NugetPath = $nugetPath
+    OrganisationName = 'yourOrg'
+    ProjectName = 'yourProj'
+    FeedName = 'Feed'
     LegacyAddress = $true
     Username = 'Personal Access Token'
-    Password = ($VegaContext.adoPatWorkItemRW)
+    Password = $azureDevOpsPat
 }
 Register-ArtifactSource @splat
 

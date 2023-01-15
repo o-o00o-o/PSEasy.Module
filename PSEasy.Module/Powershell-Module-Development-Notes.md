@@ -38,8 +38,8 @@ Install-ArtifactCredentialProvider -AddNetfx
 
 .\build\Depend-WebDownload\NuGet\nuget.exe spec PSEasy.Module
 .\build\Depend-WebDownload\NuGet\nuget.exe pack PSEasy.Module
-https://vrmobility.pkgs.visualstudio.com/Vega/_packaging/Vega/nuget/v2/
-nuget sources Add -Name "Vega" -Source "https://vrmobility.pkgs.visualstudio.com/Vega/_packaging/Vega/nuget/v2/" -username "Personal Access Token" -password "<PERSONAL_ACCESS_TOKEN>"
+https://yourOrg.pkgs.visualstudio.com/yourProj/_packaging/Feed/nuget/v2/
+nuget sources Add -Name "Feed" -Source "https://yourOrg.pkgs.visualstudio.com/yourProj/_packaging/Feed/nuget/v2/" -username "Personal Access Token" -password "<PERSONAL_ACCESS_TOKEN>"
 
 ```
 

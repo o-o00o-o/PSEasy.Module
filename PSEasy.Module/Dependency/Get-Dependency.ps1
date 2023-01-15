@@ -21,14 +21,7 @@ function Get-Dependency {
         # The destination folder to install to (if required). The gitroot will be found and folders added to the named subfolder e.g. application will result in c:\gitroot\application\...
         $DestinationFolder
     )
-    #. "$PSScriptRoot\..\ConvertTo-Array.ps1"
     try {
-        # if (-not $DependencyConfig) {
-        #     $DependencyConfig = (& "$PSScriptRoot\..\..\application\Get-VegaContext.ps1" -Environment 'None').dependencies
-        # }
-        # . "$PSScriptRoot\..\Get-GitRoot.ps1"
-        #$rootFolder = Get-GitRoot -Path $PSScriptRoot
-        #$rootFolder = "$PSScriptRoot\..\.."
         $rootFolder = Find-Item -ItemName '.git' -Directory -Parent
         if ($DestinationFolder) {
             $moduleFolder = Join-Path $rootFolder $DestinationFolder

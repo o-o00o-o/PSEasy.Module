@@ -6,8 +6,8 @@ a set of functions to publishing powershell modules
 
     ```powershell
     $splat = @{
-        NugetPath            = ((gvct).nugetPath)
-        FeedName             = 'Vega'
+        NugetPath            = $nugetPath
+        FeedName             = 'Feed'
         ModulePath           = 'module\PSEasy.Utility'
     }
     Publish-NugetPackage @splat -VersionIncrementType Patch
@@ -33,13 +33,13 @@ a set of functions to publishing powershell modules
 
     ``` powershell
     $splat = @{
-        NugetPath = ($VegaContext.nugetPath)
-        OrganisationName = 'vrmobility'
-        ProjectName = 'Vega'
-        FeedName = 'Vega'
+        NugetPath = $nugetPath
+        OrganisationName = 'yourOrg'
+        ProjectName = 'yourProj'
+        FeedName = 'Feed'
         LegacyAddress = $true
         Username = 'Personal Access Token'
-        Password = ($VegaContext.adoPatWorkItemRW)
+        Password = $azureDevOpsPat
     }
     Register-NugetArtifactSource @splat
     ```
@@ -48,28 +48,28 @@ a set of functions to publishing powershell modules
 
     ``` powershell
     $splat = @{
-        OrganisationName = 'vrmobility'
-        ProjectName = 'Vega'
-        FeedName = 'Vega'
+        OrganisationName = 'yourOrg'
+        ProjectName = 'yourProj'
+        FeedName = 'Feed'
         LegacyAddress = $true
         Username = 'Personal Access Token'
-        Password = ($VegaContext.adoPatArtifactRWM)
+        Password = $azureDevOpsPat
     }
     Register-PSArtifactSource @splat
     ```
 
-- Now you can test you have the Vega repository
+- Now you can test you have the repository
 
     ``` powershell
     Get-PSRepository
     Get-PackageSource
-    Find-Module '*' -Repository Vega
+    Find-Module '*' -Repository Feed
     ```
 
 - Now install it
 
     ``` powershell
-    Install-Module -Name PSEasy.Module -Repository Vega
+    Install-Module -Name PSEasy.Module -Repository Feed
     ```
 
 ## Developing the PSEasy.Module itself
@@ -86,8 +86,8 @@ a set of functions to publishing powershell modules
 
     ``` powershell
     $splat = @{
-        NugetPath            = ($VegaContext.nugetPath)
-        FeedName             = 'Vega'
+        NugetPath            = $nugetPath
+        FeedName             = 'Feed'
         ModulePath           = 'src\PSEasy.Module'
     }
     Publish-NugetPackage @splat -VersionIncrementType None
