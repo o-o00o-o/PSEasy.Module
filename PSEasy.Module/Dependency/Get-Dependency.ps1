@@ -1,6 +1,7 @@
 function Get-Dependency {
     [CmdletBinding()]
     Param(
+
         [Parameter(Mandatory)]
         [PSCustomObject]
         $DependencyConfig,
@@ -17,17 +18,15 @@ function Get-Dependency {
 
         [Parameter()]
         [string]
-        [ValidateSet('', 'application', 'build', 'deploy', 'test', 'script')]
         # The destination folder to install to (if required). The gitroot will be found and folders added to the named subfolder e.g. application will result in c:\gitroot\application\...
         $DestinationFolder
     )
     try {
-        $rootFolder = Find-Item -ItemName '.git' -Directory -Parent
-        if ($DestinationFolder) {
-            $moduleFolder = Join-Path $rootFolder $DestinationFolder
-        } else {
-            $moduleFolder = $rootFolder
+        if (-not $DestinationFolder) {
+            $DestinationFolder = Find-Item -ItemName '.git' -Directory -Parent
         }
+
+        $moduleFolder = $DestinationFolder
 
         $destinationTypes = 'Nuget','WebDownload'
         # $dependencyBuilder = [System.Collections.Generic.List[PSCustomObject]]::new()

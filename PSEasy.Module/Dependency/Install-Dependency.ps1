@@ -30,8 +30,8 @@ Param(
 
     [Parameter()]
     [string]
-    [ValidateSet('', 'application', 'build', 'deploy', 'test', 'script')]
-    # The destination folder to install to (if required). The gitroot will be found and folders added to the named subfolder e.g. application will result in c:\gitroot\application\...
+    # The destination folder to install to (required for nuget and web-download types).
+    # If not given The gitroot will be found and folders added to the named subfolder.
     $DestinationFolder,
 
     [parameter()]
