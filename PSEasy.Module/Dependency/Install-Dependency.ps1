@@ -16,7 +16,13 @@ function Install-Dependency {
 Param(
     [Parameter()]
     [PSCustomObject]
+    # All required dependencies for the application
     $DependencyConfig,
+
+    [Parameter()]
+    [PSCustomObject]
+    # Repository configuration providing passwords for each repo
+    $RepositoryConfig,
 
     [Parameter(ParameterSetName = "DependencyPath", Mandatory)]
     [Alias('DependencyPath')]
@@ -103,6 +109,14 @@ try {
 
                 if ($Dependency.PSObject.Properties['Repository']) {
                     $splat.Add('Repository', $Dependency.Repository)
+                    if ($RepositoryConfig.PSObject.Properties[$Dependency.Repository]) {
+                        $artifactConfig = $RepositoryConfig."$($Dependency.Repository)".AdoArtifact
+                        $artifactConfig | Format-List | Out-String | Write-Verbose
+                        if ($artifactConfig.PSObject.Properties['FeedPassword']) {
+                            Write-Verbose 'Adding Credential'
+                            $splat.Add('Credential', (Get-CredentialSilently -Username $artifactConfig.FeedUsername -Password $artifactConfig.FeedPassword))
+                        }
+                    }
                 }
 
                 Install-DependencyPSModule @splat

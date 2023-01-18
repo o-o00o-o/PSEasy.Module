@@ -23,7 +23,12 @@ function Install-DependencyPSModule {
         [parameter()]
         [switch]
         # By default we won't install if already installed. Force will first remove then install again
-        $Force
+        $Force,
+
+        [parameter()]
+        [PSCredential]
+        # By default we won't install if already installed. Force will first remove then install again
+        $Credential
 
         # [parameter()]
         # [switch]
@@ -79,6 +84,9 @@ function Install-DependencyPSModule {
         }
         if ($Repository) {
             $InstallModuleArgs.Add('Repository', $Repository)
+        }
+        if ($Credential) {
+            $InstallModuleArgs.Add('Credential', $Credential)
         }
 
         ("Install-Module parameters" + ($InstallModuleArgs | Format-Table | Out-String)) | Write-Host

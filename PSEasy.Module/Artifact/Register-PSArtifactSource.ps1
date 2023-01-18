@@ -47,15 +47,16 @@ function Register-PSArtifactSource {
     [CmdletBinding(SupportsShouldProcess)]
     param(
         [Parameter(Mandatory)][string]$OrganisationName,
-        [Parameter()][string]$ProjectName,
+        [Parameter()][string]         $ProjectName,
         [Parameter(Mandatory)][string]$FeedName,
-        [Parameter()][switch]$LegacyAddress,
-        [Parameter()][string]$Username,
-        [Parameter()][SecureString]$Password,
-        [Parameter()][string]$ProviderName = 'NuGet',
-        [Parameter()][switch]$Force,
-        [Parameter()][switch]$OutputAdoVariable
+        [Parameter()][switch]         $LegacyAddress,
+        [Parameter()][string]         $Username,
+        [Parameter()][SecureString]   $Password,
+        [Parameter()][string]         $ProviderName = 'NuGet',
+        [Parameter()][switch]         $Force,
+        [Parameter()][switch]         $OutputAdoVariable
     )
+    $VerboseParam = @{Verbose = $PSCmdlet.BoundParameters.ContainsKey('Verbose')}
 
     $splat = @{
         OrganisationName = $OrganisationName
@@ -66,6 +67,7 @@ function Register-PSArtifactSource {
     $source = Get-ArtifactSource @splat
 
     $credential = New-Object System.Management.Automation.PSCredential($Username, $Password)
+
     $packageSource = Get-PackageSource | Where-Object { $_.Name -eq $FeedName -and $_.ProviderName -eq $ProviderName }
     if ($packageSource -and $Force) {
         if ($PSCmdlet.ShouldProcess("PackageSource", "Unregister")) {
@@ -126,12 +128,12 @@ function Register-PSArtifactSource {
     $externalFeedEndpointsName = 'VSS_NUGET_EXTERNAL_FEED_ENDPOINTS'
     if ($Force) {
         # clear all scopes to ensure we got them all
-        Clear-EnvironmentVariable -Name $sessionTokenCacheEnabledName
-        Clear-EnvironmentVariable -Name $externalFeedEndpointsName
+        Clear-EnvironmentVariable -Name $sessionTokenCacheEnabledName @VerboseParam
+        Clear-EnvironmentVariable -Name $externalFeedEndpointsName @VerboseParam
     }
 
-    Set-EnvironmentVariable -Name $externalFeedEndpointsName -value $endpoints
-    Set-EnvironmentVariable -Name $sessionTokenCacheEnabledName -value 'true'
+    Set-EnvironmentVariable -Name $externalFeedEndpointsName -value $endpoints @VerboseParam
+    Set-EnvironmentVariable -Name $sessionTokenCacheEnabledName -value 'true' @VerboseParam
 
 
 }
