@@ -111,10 +111,9 @@ try {
                     $splat.Add('Repository', $Dependency.Repository)
                     if ($RepositoryConfig.PSObject.Properties[$Dependency.Repository]) {
                         $artifactConfig = $RepositoryConfig."$($Dependency.Repository)".AdoArtifact
-                        $artifactConfig | Format-List | Out-String | Write-Verbose
-                        if ($artifactConfig.PSObject.Properties['FeedPassword']) {
-                            Write-Verbose 'Adding Credential'
-                            $splat.Add('Credential', (Get-CredentialSilently -Username $artifactConfig.FeedUsername -Password $artifactConfig.FeedPassword))
+                        ("Artifact Configuration for this Repository" + ($artifactConfig | Format-List | Out-String)) | Write-Verbose
+                        if ($artifactConfig.PSObject.Properties['Password']) {
+                            $splat.Add('Credential', (Get-CredentialSilently -Username $artifactConfig.Username -Password $artifactConfig.Password))
                         }
                     }
                 }
