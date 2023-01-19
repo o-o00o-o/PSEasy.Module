@@ -30,10 +30,11 @@ function Install-DependencyPSModule {
         # By default we won't install if already installed. Force will first remove then install again
         $Credential,
 
-        [parameter()]
-        [switch]
-        # normally PS will auto-import however not for types, so for those modules with types (e.g. pester) we import also.
-        $AllUsers,
+        # if set will force the scope (useful for server installation where you want installation to be for all users)
+        [Parameter()]
+        [ValidateSet('','AllUsers', 'CurrentUser')]
+        [String]
+        $ForceScope,
 
         [parameter()]
         [switch]
@@ -67,12 +68,16 @@ function Install-DependencyPSModule {
             $adjustedForce = $Force
         }
 
-        if ($AllUsers) {
-            if ((Test-UserPrivilegeAdmin)) {
-                $scope = 'AllUsers'
-                $adjustedForce = $true
+        if ($ForceScope) {
+            if ($ForceScope -eq 'AllUsers') {
+                if ((Test-UserPrivilegeAdmin)) {
+                    $scope = $ForceScope
+                    $adjustedForce = $true
+                } else {
+                    throw "$Name asked to be installed for all users however current user is not running in administrator mode so aborting"
+                }
             } else {
-                throw "$Name asked to be installed for all users however current user is not running in administrator mode so aborting"
+                $scope = $ForceScope
             }
         } else {
             $scope = 'CurrentUser'

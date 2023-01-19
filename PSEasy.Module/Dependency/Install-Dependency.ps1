@@ -48,7 +48,13 @@ Param(
     [parameter()]
     [switch]
     # Automatically import after install
-    $Import
+    $Import,
+
+    # if set will force the scope (useful for server installation where you want installation to be for all users)
+    [Parameter()]
+    [ValidateSet('','AllUsers', 'CurrentUser')]
+    [String]
+    $ForceScope
 )
 try {
 
@@ -109,7 +115,11 @@ try {
                 if ($Dependency.PSObject.Properties['allowClobber']) {
                     $splat.Add('AllowClobber', $Dependency.AllowClobber)
                 }
-                if ($Dependency.PSObject.Properties['allUsers']) {
+
+                if ($ForceScope) {
+                    $splat.Add('AllUsers', $AllUsers)
+                }
+                elseif ($Dependency.PSObject.Properties['allUsers']) {
                     $splat.Add('AllUsers', $Dependency.allUsers)
                 }
 
