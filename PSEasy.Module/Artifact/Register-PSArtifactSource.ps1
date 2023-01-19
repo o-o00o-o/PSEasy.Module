@@ -56,7 +56,7 @@ function Register-PSArtifactSource {
         [Parameter()][switch]         $Force,
         [Parameter()][switch]         $OutputAdoVariable
     )
-    $VerboseParam = @{Verbose = $PSCmdlet.BoundParameters.ContainsKey('Verbose')}
+    $VerboseParam = @{Verbose = [bool]$PSBoundParameters['Verbose']}
 
     $splat = @{
         OrganisationName = $OrganisationName
