@@ -106,6 +106,12 @@ try {
                 if ($Dependency.PSObject.Properties['preRelease']) {
                     $splat.Add('PreRelease', $Dependency.PreRelease)
                 }
+                if ($Dependency.PSObject.Properties['allowClobber']) {
+                    $splat.Add('AllowClobber', $Dependency.AllowClobber)
+                }
+                if ($Dependency.PSObject.Properties['allUsers']) {
+                    $splat.Add('AllUsers', $Dependency.allUsers)
+                }
 
                 if ($Dependency.PSObject.Properties['Repository']) {
                     $splat.Add('Repository', $Dependency.Repository)

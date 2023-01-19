@@ -28,7 +28,17 @@ function Install-DependencyPSModule {
         [parameter()]
         [PSCredential]
         # By default we won't install if already installed. Force will first remove then install again
-        $Credential
+        $Credential,
+
+        [parameter()]
+        [switch]
+        # normally PS will auto-import however not for types, so for those modules with types (e.g. pester) we import also.
+        $AllUsers,
+
+        [parameter()]
+        [switch]
+        # normally PS will auto-import however not for types, so for those modules with types (e.g. pester) we import also.
+        $AllowClobber
 
         # [parameter()]
         # [switch]
@@ -50,22 +60,31 @@ function Install-DependencyPSModule {
         Write-Host "Module $Name $RequiredVersion installing "
         # PSGallery is always untrusted and so we always need to force for this to be agreed in non-interactive mode
         if (-not [Environment]::UserInteractive -or
-            ((Test-Path 'variable:UserInteractive') -and $UserInteractive -eq $false) # pscore doesn't honour UserInteractive setting, so we have to do it ourselves
+            ((Test-Path 'variable:UserInteractive') -and $UserInteractive -eq $false) # pscore doesn't honour UserInteractive setting, so we have to track it ourselves
         ) {
             $adjustedForce = $true
         } else {
             $adjustedForce = $Force
         }
 
-        if ((Test-UserPrivilegeAdmin)) {
-            $scope = 'AllUsers'
-            $adjustedForce = $true
-            $allowClobber = $true
+        if ($AllUsers) {
+            if ((Test-UserPrivilegeAdmin)) {
+                $scope = 'AllUsers'
+                $adjustedForce = $true
+            } else {
+                throw "$Name asked to be installed for all users however current user is not running in administrator mode so aborting"
+            }
         } else {
             $scope = 'CurrentUser'
-            #$adjustedForce = $false # seems that force doesn't work with current user in ps7
-            $allowClobber = $true # Az.Storage required this and does it do any harm?
         }
+
+        # if ((Test-UserPrivilegeAdmin)) {
+        #     $scope = 'AllUsers'
+        #     $adjustedForce = $true
+        # } else {
+        #     #$adjustedForce = $false # seems that force doesn't work with current user in ps7
+        #     $allowClobber = $true # Az.Storage required this and does it do any harm?
+        # }
         #Install-Module -Name $Name -SkipPublisherCheck -AllowClobber -Force:$adjustedForce -RequiredVersion $RequiredVersion -Confirm:$false -Scope CurrentUser
 
         $InstallModuleArgs = @{
@@ -80,7 +99,7 @@ function Install-DependencyPSModule {
             $InstallModuleArgs.Add('RequiredVersion', "$($RequiredVersion)$(if($PreRelease) {"-$PreRelease"})")
         }
         if ($PreRelease) {
-            $InstallModuleArgs.Add('AllowPrerelease', [bool]$PreRelease)
+            $InstallModuleArgs.Add('AllowPreRelease', [bool]$PreRelease)
         }
         if ($Repository) {
             $InstallModuleArgs.Add('Repository', $Repository)
