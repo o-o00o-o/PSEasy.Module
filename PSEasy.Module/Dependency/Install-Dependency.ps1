@@ -65,9 +65,9 @@ try {
     $groupedDependencies = Get-Dependency @dependencySplat
 
     if ($ScriptNames) {
-        Write-Host "Installing Dependencies for Scripts: $([string]::Join($ScriptNames, ','))"
+        Write-Host "Installing Dependencies for Scripts: $([string]::Join(', ', $ScriptNames))"
     } elseif ($DependencyPaths) {
-        Write-Host "Installing Dependencies for Dependency Paths: $([string]::Join($DependencyPaths, ','))"
+        Write-Host "Installing Dependencies for Dependency Paths: $([string]::Join(', ', $DependencyPaths))"
     }
 
     # install them
@@ -109,7 +109,11 @@ try {
 
                 if ($Dependency.PSObject.Properties['Repository']) {
                     $splat.Add('Repository', $Dependency.Repository)
-                    if ($RepositoryConfig.PSObject.Properties[$Dependency.Repository]) {
+                    if ($RepositoryConfig -and
+                        $RepositoryConfig.HasProperties() -and
+                        $RepositoryConfig.PSObject.Properties[$Dependency.Repository] -and
+                        $RepositoryConfig."$($Dependency.Repository)".PSObject.Properties['AdoArtifact']
+                    ) {
                         $artifactConfig = $RepositoryConfig."$($Dependency.Repository)".AdoArtifact
                         ("Artifact Configuration for this Repository" + ($artifactConfig | Format-List | Out-String)) | Write-Verbose
                         if ($artifactConfig.PSObject.Properties['Password']) {
