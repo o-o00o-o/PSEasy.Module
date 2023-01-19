@@ -117,10 +117,10 @@ try {
                 }
 
                 if ($ForceScope) {
-                    $splat.Add('AllUsers', $AllUsers)
+                    $splat.Add('ForceScope', $ForceScope)
                 }
-                elseif ($Dependency.PSObject.Properties['allUsers']) {
-                    $splat.Add('AllUsers', $Dependency.allUsers)
+                elseif ($Dependency.PSObject.Properties['ForceScope']) {
+                    $splat.Add('ForceScope', $Dependency.ForceScope)
                 }
 
                 if ($Dependency.PSObject.Properties['Repository']) {
