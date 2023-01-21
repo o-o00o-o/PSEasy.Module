@@ -66,24 +66,32 @@ function Register-PSArtifactSource {
     }
     $source = Get-ArtifactSource @splat
 
+    Write-Verbose "Source = $source"
+
     $credential = New-Object System.Management.Automation.PSCredential($Username, $Password)
 
     $packageSource = Get-PackageSource | Where-Object { $_.Name -eq $FeedName -and $_.ProviderName -eq $ProviderName }
     if ($packageSource -and $Force) {
         if ($PSCmdlet.ShouldProcess("PackageSource", "Unregister")) {
-            $packageSource |
-            UnRegister-PackageSource
+
+
+            $packageSource | ForEach-Object {
+                Write-Verbose "Unregister-PackageSource $($_.Name)"
+                UnRegister-PackageSource -Name $_.Name
+            }
         }
     }
 
     if ((Get-PSRepository | Where-Object { $_.Name -eq $FeedName }) -and $Force) {
         if ($PSCmdlet.ShouldProcess("PSRepository", "Unregister")) {
+            Write-Verbose "Unregister-PSRepository $FeedName"
             UnRegister-PSRepository -Name $FeedName
         }
     }
 
     if (-not (Get-PSRepository | Where-Object { $_.Name -eq $FeedName })) {
         if ($PSCmdlet.ShouldProcess("PSRepository", "Register")) {
+            Write-Verbose "Register-PSRepository $FeedName"
 
             $splat = @{
                 Name               = $FeedName
@@ -98,6 +106,7 @@ function Register-PSArtifactSource {
 
     if (-not (Get-PackageSource | Where-Object { $_.Name -eq $FeedName -and $_.ProviderName -eq $ProviderName })) {
         if ($PSCmdlet.ShouldProcess("PackageSource", "Register")) {
+            Write-Verbose "Register-PackageSource $FeedName"
             $splat = @{
                 Name         = $FeedName
                 Location     = $source

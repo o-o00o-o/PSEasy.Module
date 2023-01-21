@@ -31,4 +31,6 @@ function Get-ArtifactEndpointCredential {
         # used for AzureDevops so that later steps can use this
         Write-Host "##vso[task.setvariable variable=PackageFeedEndpointCredential;issecret=true]$endpoints"
     }
+
+    Write-Output $endpoints
 }
