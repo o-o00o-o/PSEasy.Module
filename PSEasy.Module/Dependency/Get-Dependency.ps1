@@ -18,14 +18,10 @@ function Get-Dependency {
 
         [Parameter()]
         [string]
-        # The destination folder to install to (if required). The gitroot will be found and folders added to the named subfolder e.g. application will result in c:\gitroot\application\...
-        $DestinationFolder
+        # The destination folder to install to (if required). If not provided uses the current working directory. Will create Depend-Nuget and Depend-WebDownload folders below this folder.
+        $DestinationFolder = $pwd
     )
     try {
-        if (-not $DestinationFolder) {
-            $DestinationFolder = Find-Item -ItemName '.git' -Directory -Parent
-        }
-
         $moduleFolder = $DestinationFolder
 
         $destinationTypes = 'Nuget','WebDownload'
