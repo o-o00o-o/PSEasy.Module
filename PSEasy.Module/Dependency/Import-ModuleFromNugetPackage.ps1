@@ -8,5 +8,5 @@ $ModulePath = Join-Path (Join-Path (Join-Path $DependencyFolder 'Depend-NuGet') 
 if (! (Test-Path $ModulePath)) {
     Write-Error "$PathToPsm1 module not found in $ModulePath"
 }
-get-childitem $ModulePath | Import-Module -Force
+get-childitem $ModulePath | Import-Module -Force -Scope Global # scope global otherwise it is only imported into the session
 }
