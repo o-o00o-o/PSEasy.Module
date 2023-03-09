@@ -2,6 +2,7 @@
 # =========================================
 . "$PSScriptRoot\Artifact\Get-ArtifactEndpointCredential.ps1"
 . "$PSScriptRoot\Artifact\Get-ArtifactSource.private.ps1"
+. "$PSScriptRoot\Artifact\Install-ArtifactCredentialPassword.ps1"
 . "$PSScriptRoot\Artifact\Install-ArtifactCredentialProvider.ps1"
 . "$PSScriptRoot\Artifact\Register-ArtifactSource.ps1"
 . "$PSScriptRoot\Artifact\Register-PSArtifactSource.ps1"

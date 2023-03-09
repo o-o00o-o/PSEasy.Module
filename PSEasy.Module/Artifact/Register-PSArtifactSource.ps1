@@ -66,58 +66,9 @@ function Register-PSArtifactSource {
     }
     $source = Get-ArtifactSource @splat
 
-    Write-Verbose "Source = $source"
+    Write-Verbose "Source = $source" @VerboseParam
 
     $credential = New-Object System.Management.Automation.PSCredential($Username, $Password)
-
-    $packageSource = Get-PackageSource | Where-Object { $_.Name -eq $FeedName -and $_.ProviderName -eq $ProviderName }
-    if ($packageSource -and $Force) {
-        if ($PSCmdlet.ShouldProcess("PackageSource", "Unregister")) {
-
-
-            $packageSource | ForEach-Object {
-                Write-Verbose "Unregister-PackageSource $($_.Name)"
-                UnRegister-PackageSource -Name $_.Name
-            }
-        }
-    }
-
-    if ((Get-PSRepository | Where-Object { $_.Name -eq $FeedName }) -and $Force) {
-        if ($PSCmdlet.ShouldProcess("PSRepository", "Unregister")) {
-            Write-Verbose "Unregister-PSRepository $FeedName"
-            UnRegister-PSRepository -Name $FeedName
-        }
-    }
-
-    if (-not (Get-PSRepository | Where-Object { $_.Name -eq $FeedName })) {
-        if ($PSCmdlet.ShouldProcess("PSRepository", "Register")) {
-            Write-Verbose "Register-PSRepository $FeedName"
-
-            $splat = @{
-                Name               = $FeedName
-                SourceLocation     = $source
-                PublishLocation    = $source
-                InstallationPolicy = 'Trusted'
-                Credential         = $credential
-            }
-            Register-PSRepository @splat
-        }
-    }
-
-    if (-not (Get-PackageSource | Where-Object { $_.Name -eq $FeedName -and $_.ProviderName -eq $ProviderName })) {
-        if ($PSCmdlet.ShouldProcess("PackageSource", "Register")) {
-            Write-Verbose "Register-PackageSource $FeedName"
-            $splat = @{
-                Name         = $FeedName
-                Location     = $source
-                ProviderName = $ProviderName
-                Trusted      = $true
-                SkipValidate = $true
-                Credential   = $credential
-            }
-            Register-PackageSource @splat
-        }
-    }
 
     # setup the credentials to prevent the PS nuget from prompting
     # https://github.com/microsoft/artifacts-credprovider#setup
@@ -131,18 +82,52 @@ function Register-PSArtifactSource {
         Password          = $Password
         OutputAdoVariable = $OutputAdoVariable
     }
-    $endpoints = Get-ArtifactEndpointCredential @splat
+    Install-ArtifactCredentialPassword @splat @VerboseParam
 
-    $sessionTokenCacheEnabledName = 'Nuget_CredentialProvider_SessionTokenCache_Enabled'
-    $externalFeedEndpointsName = 'VSS_NUGET_EXTERNAL_FEED_ENDPOINTS'
-    if ($Force) {
-        # clear all scopes to ensure we got them all
-        Clear-EnvironmentVariable -Name $sessionTokenCacheEnabledName @VerboseParam
-        Clear-EnvironmentVariable -Name $externalFeedEndpointsName @VerboseParam
+    $packageSource = Get-PackageSource | Where-Object { $_.Name -eq $FeedName -and $_.ProviderName -eq $ProviderName }
+    if ($packageSource -and $Force) {
+        if ($PSCmdlet.ShouldProcess("PackageSource", "Unregister")) {
+            $packageSource | ForEach-Object {
+                Write-Verbose "Unregister-PackageSource $($_.Name)" @VerboseParam
+                UnRegister-PackageSource -Name $_.Name @VerboseParam
+            }
+        }
     }
 
-    Set-EnvironmentVariable -Name $externalFeedEndpointsName -value $endpoints @VerboseParam
-    Set-EnvironmentVariable -Name $sessionTokenCacheEnabledName -value 'true' @VerboseParam
+    if ((Get-PSRepository | Where-Object { $_.Name -eq $FeedName }) -and $Force) {
+        if ($PSCmdlet.ShouldProcess("PSRepository", "Unregister")) {
+            Write-Verbose "Unregister-PSRepository $FeedName"  @VerboseParam
+            UnRegister-PSRepository -Name $FeedName @VerboseParam
+        }
+    }
 
+    if (-not (Get-PSRepository | Where-Object { $_.Name -eq $FeedName })) {
+        if ($PSCmdlet.ShouldProcess("PSRepository", "Register")) {
+            Write-Verbose "Register-PSRepository $FeedName" @VerboseParam
 
+            $splat = @{
+                Name               = $FeedName
+                SourceLocation     = $source
+                PublishLocation    = $source
+                InstallationPolicy = 'Trusted'
+                Credential         = $credential
+            }
+            Register-PSRepository @splat @VerboseParam
+        }
+    }
+
+    if (-not (Get-PackageSource | Where-Object { $_.Name -eq $FeedName -and $_.ProviderName -eq $ProviderName })) {
+        if ($PSCmdlet.ShouldProcess("PackageSource", "Register")) {
+            Write-Verbose "Register-PackageSource $FeedName" @VerboseParam
+            $splat = @{
+                Name         = $FeedName
+                Location     = $source
+                ProviderName = $ProviderName
+                Trusted      = $true
+                SkipValidate = $true
+                Credential   = $credential
+            }
+            Register-PackageSource @splat @VerboseParam
+        }
+    }
 }
