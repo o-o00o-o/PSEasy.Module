@@ -117,7 +117,7 @@ function Install-DependencyPSModule {
         Install-Module @InstallModuleArgs
     } else {
         Write-Host "Module $Name $RequiredVersion is already installed"
-
+        $currentModule | Format-List | Out-String | Write-Verbose
         # Write-Verbose "Import-Module $Name $RequiredVersion"
         # try {
         #      # force the import in case we already are using it
