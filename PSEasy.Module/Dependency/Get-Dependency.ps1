@@ -36,7 +36,7 @@ function Get-Dependency {
 
                 if ($PSCmdlet.ParameterSetName -eq 'ScriptName') {
                     foreach ($scriptName in $ScriptNames) {
-                        if ($dependency.scripts -contains $scriptName) {
+                        if ($dependency.PSObject.Properties['scripts'] -and $dependency.scripts -contains $scriptName) {
                             if ($dependency.Type -in $destinationTypes) {
                                 $dependency | Add-Member 'destination' $destination -force
                             }
