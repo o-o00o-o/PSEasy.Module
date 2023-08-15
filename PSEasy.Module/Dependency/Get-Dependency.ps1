@@ -27,14 +27,17 @@ function Get-Dependency {
         $destinationTypes = 'Nuget','WebDownload'
         # $dependencyBuilder = [System.Collections.Generic.List[PSCustomObject]]::new()
         $dependencyBuilder = @{}
+
         foreach ($type in ($DependencyConfig.ToArray())) {
             Write-Debug "looking at $type"
+
             foreach ($dependency in ($type | ConvertTo-Array -AddProperties @{Type = $type.Name })) {
                 Write-Debug "looking at $($dependency | Format-List | Out-String)"
                 $loopDependencyPath = "$($dependency.Type)\\$($dependency.Name)"
                 $destination = Join-Path $moduleFolder "Depend-$($dependency.Type)"
 
                 if ($PSCmdlet.ParameterSetName -eq 'ScriptName') {
+
                     foreach ($scriptName in $ScriptNames) {
                         if ($dependency.PSObject.Properties['scripts'] -and $dependency.scripts -contains $scriptName) {
                             if ($dependency.Type -in $destinationTypes) {
@@ -68,9 +71,11 @@ function Get-Dependency {
                 }
             }
         }
+
         if ($dependencyBuilder.Count -eq 0) {
             throw "No dependencies found for $($ScriptNames)$($DependencyPaths)"
         }
+
         $groupByType = (@($dependencyBuilder.GetEnumerator()).Value | Group-Object -Property Type)
         $loadOrder = [scriptblock] {
             switch ($_.Name) {
