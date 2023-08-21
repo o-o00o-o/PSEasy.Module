@@ -28,10 +28,10 @@ function Get-Dependency {
         # $dependencyBuilder = [System.Collections.Generic.List[PSCustomObject]]::new()
         $dependencyBuilder = @{}
 
-        foreach ($type in ($DependencyConfig.ToArray())) {
+        foreach ($type in ($DependencyConfig.ToArray2())) {
             Write-Debug "looking at $type"
 
-            foreach ($dependency in ($type | ConvertTo-Array -AddProperties @{Type = $type.Name })) {
+            foreach ($dependency in ($type | ConvertTo-Array2 -AddProperties @{Type = $type.Name })) {
                 Write-Debug "looking at $($dependency | Format-List | Out-String)"
                 $loopDependencyPath = "$($dependency.Type)\\$($dependency.Name)"
                 $destination = Join-Path $moduleFolder "Depend-$($dependency.Type)"
