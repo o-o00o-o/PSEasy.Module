@@ -12,7 +12,7 @@
 RootModule = 'PSEasy.Module.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.6.15'
+ModuleVersion = '1.6.16'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -51,7 +51,12 @@ Description = 'Push and Get Powershell and Nuget Modules'
 # ProcessorArchitecture = ''
 
 # Modules that must be imported into the global environment prior to importing this module
-RequiredModules = @('PSEasy.Utility')
+RequiredModules = @(
+    @{
+        ModuleName = 'PSEasy.Utility'
+        ModuleVersion = '1.5.7'
+    }
+)
 
 # Assemblies that must be loaded prior to importing this module
 # RequiredAssemblies = @()
@@ -138,5 +143,3 @@ PrivateData = @{
 # DefaultCommandPrefix = ''
 
 }
-
-
