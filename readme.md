@@ -78,19 +78,18 @@ a set of functions to publishing powershell modules
 - Test directly by importing from the folder
 
     ``` powershell
-    Import-Module .\src\PSEasy.Module\ -force -PassThru # NOTE module functions only available in this PS session
+    Build-Module .\src\PSEasy.Module\ -Import
     ```
 
 - test it, change further, repeat
 - once happy publish as Nuget to a repository and indicate how to increment the version as part of the activity
 
+- Now publish it
+
     ``` powershell
-    $splat = @{
-        NugetPath            = $nugetPath
-        FeedName             = 'Feed'
-        ModulePath           = 'src\PSEasy.Module'
-    }
-    Publish-NugetPackage @splat -VersionIncrementType None
+    Set-ModuleVersion -modulepath '.\module\PSEasy.Module\' -VersionIncrementType Patch
+    Publish-Module -path '.\module\PSEasy.Module\' -Verbose -NuGetApiKey 'Your key here' -whatif
+    # then run without whatif if no errors
     ```
 
 - Now others can use ```Install-Module``` to install from the published location

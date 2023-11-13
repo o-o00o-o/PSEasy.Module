@@ -28,7 +28,7 @@ function Get-Dependency {
         # $dependencyBuilder = [System.Collections.Generic.List[PSCustomObject]]::new()
         $dependencyBuilder = @{}
 
-        foreach ($type in ($DependencyConfig.ToArray2())) {
+        foreach ($type in ($DependencyConfig | ConvertTo-Array2)) {
             Write-Debug "looking at $type"
 
             foreach ($dependency in ($type | ConvertTo-Array2 -AddProperties @{Type = $type.Name })) {
