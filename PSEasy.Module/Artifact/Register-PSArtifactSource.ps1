@@ -89,7 +89,7 @@ function Register-PSArtifactSource {
         if ($PSCmdlet.ShouldProcess("PackageSource", "Unregister")) {
             $packageSource | ForEach-Object {
                 Write-Verbose "Unregister-PackageSource $($_.Name)" @VerboseParam
-                UnRegister-PackageSource -Name $_.Name @VerboseParam
+                UnRegister-PackageSource -Name $_.Name -ProviderName $ProviderName @VerboseParam
             }
         }
     }
