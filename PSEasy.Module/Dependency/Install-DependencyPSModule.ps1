@@ -1,4 +1,5 @@
 function Install-DependencyPSModule {
+    [CmdletBinding()]
     Param(
         [Parameter(Mandatory)]
         [string]
@@ -32,7 +33,7 @@ function Install-DependencyPSModule {
 
         # if set will force the scope (useful for server installation where you want installation to be for all users)
         [Parameter()]
-        [ValidateSet('','AllUsers', 'CurrentUser')]
+        [ValidateSet('', 'AllUsers', 'CurrentUser')]
         [String]
         $ForceScope,
 
@@ -50,7 +51,8 @@ function Install-DependencyPSModule {
     if ($RequiredVersion) {
         $currentModule = Get-Module -ListAvailable -Name $Name  | Where-Object { $_.Version -eq $RequiredVersion }
         $requiresInstall = -not $currentModule
-    } else {
+    }
+    else {
         # not finished, needs to be a bit smarter
         $latestVersion = (Get-Module -Name $Name -ListAvailable | Sort-Object Version -Descending)[0] # latest version
         $requiresInstall = $latestVersion.Version -lt ((Find-Module -Name | Sort-Object Version -Descending)[0]).Version
@@ -64,7 +66,8 @@ function Install-DependencyPSModule {
             ((Test-Path 'variable:UserInteractive') -and $UserInteractive -eq $false) # pscore doesn't honour UserInteractive setting, so we have to track it ourselves
         ) {
             $adjustedForce = $true
-        } else {
+        }
+        else {
             $adjustedForce = $Force
         }
 
@@ -73,13 +76,16 @@ function Install-DependencyPSModule {
                 if ((Test-UserPrivilegeAdmin)) {
                     $scope = $ForceScope
                     $adjustedForce = $true
-                } else {
+                }
+                else {
                     throw "$Name asked to be installed for all users however current user is not running in administrator mode so aborting"
                 }
-            } else {
+            }
+            else {
                 $scope = $ForceScope
             }
-        } else {
+        }
+        else {
             $scope = 'CurrentUser'
         }
 
@@ -93,12 +99,12 @@ function Install-DependencyPSModule {
         #Install-Module -Name $Name -SkipPublisherCheck -AllowClobber -Force:$adjustedForce -RequiredVersion $RequiredVersion -Confirm:$false -Scope CurrentUser
 
         $InstallModuleArgs = @{
-            Name = $Name
+            Name               = $Name
             SkipPublisherCheck = $true
-            AllowClobber = $allowClobber
-            Force = $adjustedForce
-            Confirm = $false
-            Scope = $scope
+            AllowClobber       = $allowClobber
+            Force              = $adjustedForce
+            Confirm            = $false
+            Scope              = $scope
         }
         if ($RequiredVersion) {
             $InstallModuleArgs.Add('RequiredVersion', "$($RequiredVersion)$(if($PreRelease) {"-$PreRelease"})")
@@ -115,7 +121,8 @@ function Install-DependencyPSModule {
 
         ("Install-Module parameters" + ($InstallModuleArgs | Format-Table | Out-String)) | Write-Host
         Install-Module @InstallModuleArgs
-    } else {
+    }
+    else {
         Write-Host "Module $Name $RequiredVersion is already installed"
         $currentModule | Format-List | Out-String | Write-Verbose
         # Write-Verbose "Import-Module $Name $RequiredVersion"
