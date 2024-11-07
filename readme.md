@@ -88,7 +88,25 @@ a set of functions to publishing powershell modules
 
     ``` powershell
     Set-ModuleVersion -modulepath '.\module\PSEasy.Module\' -VersionIncrementType Patch
-    Publish-Module -path '.\module\PSEasy.Module\' -Verbose -NuGetApiKey 'Your key here' -whatif
+    ```
+
+    setup your profile with an easy to use by putting the below in your ```code $profile``` (setup the file with the commented code)
+    ```
+    <#
+    setup encrypted password one-time with
+
+    $password = Read-Host "Enter Password" -AsSecureString
+    $fileLocation = '~\PsEasy.NuGetApiKey.user.secret'
+    Set-Content -Path $fileLocation -Value $password -Force
+    #>
+
+    $global:PsEasyNuGetApiKey = Get-Content $fileLocation | ConvertTo-SecureString
+
+    function Get-PSEasyNuGetApiKey {($PsEasyNuGetApiKey | ConvertFrom-SecureString -AsPlainText)}
+    ```
+
+    then use this safely with
+    # Publish-Module -path ..\..\PSEasy\PSEasy.Module\PSEasy.Module\ -Verbose -NuGetApiKey (Get-PsEasyNuGetApiKey) -Whatif
     # then run without whatif if no errors
     ```
 

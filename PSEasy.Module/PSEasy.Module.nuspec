@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>PSEasy.Module</id>
-    <version>1.7.0</version>
+    <version>1.7.1</version>
     <authors>bgerhardi</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="expression">MIT</license>

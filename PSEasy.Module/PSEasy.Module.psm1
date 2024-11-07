@@ -10,6 +10,7 @@
 . "$PSScriptRoot\Dependency\Get-Dependency.ps1"
 . "$PSScriptRoot\Dependency\Import-Dependency.ps1"
 . "$PSScriptRoot\Dependency\Import-ModuleFromNugetPackage.ps1"
+. "$PSScriptRoot\Dependency\Import-ModuleFromScripts.ps1"
 . "$PSScriptRoot\Dependency\Install-Dependency.ps1"
 . "$PSScriptRoot\Dependency\Install-DependencyNuget.ps1"
 . "$PSScriptRoot\Dependency\Install-DependencyPSModule.ps1"

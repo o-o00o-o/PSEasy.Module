@@ -54,7 +54,7 @@ function Get-Dependency {
                         $splitDependencyPath = ($DependencyPath.split('\'.ToCharArray()))
                         $type = $splitDependencyPath[0]
                         $name = $splitDependencyPath[1]
-                        if (-not ('WebDownload', 'Nuget', 'Module', 'PackageProvider').Contains($type)) {
+                        if (-not ('WebDownload', 'NuGet', 'Module', 'PackageProvider').Contains($type)) {
                             throw "$type is not a known installer type (from $DependencyPath)"
                         }
                         if ($dependency.type -eq $type -and $dependency.name -eq $name) {
@@ -82,7 +82,7 @@ function Get-Dependency {
                 'PackageProvider' { 1 }
                 'WebDownload' { 2 }
                 'Module' { 3 }
-                'Nuget' { 4 }
+                'NuGet' { 4 }
                 Default { 5 }
             } }
         Write-Output $groupByType | Sort-Object $loadOrder
